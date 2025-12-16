@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->integer('time_limit')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
