@@ -2,27 +2,25 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 
 class Test extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'title',
+        'description',
+        'tags',
+        'duration',
+        'passing_score',
+        'attempts',
+        'start_time',
+        'end_time',
+        'number_questions',
+        'mix',
+    ];
 
-
-    protected $fillable = ['title', 'description', 'time_limit', 'user_id', 'category_id', 'is_active'];
-
-
-    public function questions()
+    public function question()
     {
         return $this->hasMany(Question::class);
-    }
-
-
-    public function results()
-    {
-        return $this->hasMany(Test_Result::class);
     }
 }
