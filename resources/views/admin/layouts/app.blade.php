@@ -1,6 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+    <link rel="stylesheet" href="https://unpkg.com/@yaireo/tagify/dist/tagify.css">
+    <style>
+        @push('styles')
+<style>
+        .answer-item {
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background: #fff;
+        }
+    </style>
+    @endpush
+
+    .section-toggle {
+            cursor: pointer;
+            background: #f8f9fa;
+        }
+
+        .section-body {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height .4s ease, padding .3s ease;
+            padding: 0;
+        }
+
+        .section-body.open {
+            max-height: 200px;
+            padding: 15px 0;
+        }
+
+        .arrow {
+            transition: transform .3s ease;
+        }
+
+        .arrow.rotate {
+            transform: rotate(90deg);
+        }
+    </style>
+
+
     <!-- Required Meta Tags Always Come First -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,20 +54,19 @@
     <title>@yield('title')</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="#">
 
     <!-- Font -->
-    <link href="../../css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="{{asset('assets/admin/admin/../../css2?family=Inter:wght@400;600&display=swap')}}" rel="stylesheet">
 
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/vendor.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/admin/css/vendor.min.css')}}">
 
     <!-- CSS Front Template -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/theme.min.css?v=1.0')}}">
+    <link rel="stylesheet" href="{{asset('assets/admin/css/theme.min.css?v=1.0')}}">
 
-    <link rel="preload" href="{{ asset('assets/admin/css/theme.min-1.css')}}" data-hs-appearance="default" as="style">
+    <link rel="preload" href="{{asset('assets/admin/css/theme.min-1.css')}}" data-hs-appearance="default" as="style">
     <link rel="preload" href="{{asset('assets/admin/css/theme-dark.min.css')}}" data-hs-appearance="dark" as="style">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <style data-hs-appearance-onload-styles="">
         *
@@ -130,8 +174,9 @@
             return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16)
         }
     </script>
-</head>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+</head>
 <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
 
 <script src="{{asset('assets/admin/js/hs.theme-appearance.js')}}"></script>
@@ -143,12 +188,11 @@
 <header id="header" class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navbar-bordered bg-white">
     <div class="navbar-nav-wrap">
         <!-- Logo -->
-        <a class="navbar-brand" href="index.html" aria-label="Front">
-            <img class="navbar-brand-logo" src="{{ asset('assets/admin/svg/logos/logo.svg') }}" alt="Logo" data-hs-theme-appearance="default">
-            <img class="navbar-brand-logo" src="{{ asset('assets/admin/svg/logos-light/logo.svg') }}" alt="Logo" data-hs-theme-appearance="dark">
-            <img class="navbar-brand-logo-mini" src="{{ asset('assets/admin/svg/logos/logo-short.svg') }}" alt="Logo" data-hs-theme-appearance="default">
-            <img class="navbar-brand-logo-mini" src="{{ asset('assets/admin/svg/logos-light/logo-short.svg') }}" alt="Logo" data-hs-theme-appearance="dark">
-
+        <a class="navbar-brand" href="#" aria-label="Front">
+            <img class="navbar-brand-logo" src="{{asset('assets/admin/svg/logos/logo.svg')}}" alt="Logo" data-hs-theme-appearance="default">
+            <img class="navbar-brand-logo" src="{{asset('assets/admin/svg/logos-light/logo.svg')}}" alt="Logo" data-hs-theme-appearance="dark">
+            <img class="navbar-brand-logo-mini" src="{{asset('assets/admin/svg/logos/logo-short.svg')}}" alt="Logo" data-hs-theme-appearance="default">
+            <img class="navbar-brand-logo-mini" src="{{asset('assets/admin/svg/logos-light/logo-short.svg')}}" alt="Logo" data-hs-theme-appearance="dark">
         </a>
         <!-- End Logo -->
 
@@ -164,12 +208,12 @@
             <!-- Search Form -->
             <div class="dropdown ms-2">
                 <!-- Input Group -->
-                @yield('header')
                 <div class="d-none d-lg-block">
                     <div class="input-group input-group-merge input-group-borderless input-group-hover-light navbar-input-group">
                         <div class="input-group-prepend input-group-text">
                             <i class="bi-search"></i>
                         </div>
+
                         <input type="search" class="js-form-search form-control" placeholder="Search in front" aria-label="Search in front" data-hs-form-search-options='{
                        "clearIcon": "#clearSearchResultsIcon",
                        "dropMenuElement": "#searchDropdownMenu",
@@ -215,10 +259,10 @@
                             <span class="dropdown-header">Recent searches</span>
 
                             <div class="dropdown-item bg-transparent text-wrap">
-                                <a class="btn btn-soft-dark btn-xs rounded-pill" href="index.html">
+                                <a class="btn btn-soft-dark btn-xs rounded-pill" href="#">
                                     Gulp <i class="bi-search ms-1"></i>
                                 </a>
-                                <a class="btn btn-soft-dark btn-xs rounded-pill" href="index.html">
+                                <a class="btn btn-soft-dark btn-xs rounded-pill" href="#">
                                     Notification panel <i class="bi-search ms-1"></i>
                                 </a>
                             </div>
@@ -227,7 +271,7 @@
 
                             <span class="dropdown-header">Tutorials</span>
 
-                            <a class="dropdown-item" href="index.html">
+                            <a class="dropdown-item" href="#">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
                       <span class="icon icon-soft-dark icon-xs icon-circle">
@@ -241,7 +285,7 @@
                                 </div>
                             </a>
 
-                            <a class="dropdown-item" href="index.html">
+                            <a class="dropdown-item" href="#">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
                       <span class="icon icon-soft-dark icon-xs icon-circle">
@@ -259,7 +303,7 @@
 
                             <span class="dropdown-header">Members</span>
 
-                            <a class="dropdown-item" href="index.html">
+                            <a class="dropdown-item" href="#">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
                                         <img class="avatar avatar-xs avatar-circle" src="{{asset('assets/admin/img/160x160/img10.jpg')}}" alt="Image Description">
@@ -270,7 +314,7 @@
                                 </div>
                             </a>
 
-                            <a class="dropdown-item" href="index.html">
+                            <a class="dropdown-item" href="#">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
                                         <img class="avatar avatar-xs avatar-circle" src="{{asset('assets/admin/img/160x160/img3.jpg')}}" alt="Image Description">
@@ -834,9 +878,100 @@
                 </li>
 
                 <li class="nav-item">
+                    <!-- Account -->
+                    <div class="dropdown">
+                        <a class="navbar-dropdown-account-wrapper" href="javascript:;" id="accountNavbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside" data-bs-dropdown-animation="">
+                            <div class="avatar avatar-sm avatar-circle">
+                                <img class="avatar-img" src="{{asset('assets/admin/img/160x160/img6.jpg')}}" alt="Image Description">
+                                <span class="avatar-status avatar-sm-status avatar-status-success"></span>
+                            </div>
+                        </a>
 
+                        <div class="dropdown-menu dropdown-menu-end navbar-dropdown-menu navbar-dropdown-menu-borderless navbar-dropdown-account" aria-labelledby="accountNavbarDropdown" style="width: 16rem;">
+                            <div class="dropdown-item-text">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar avatar-sm avatar-circle">
+                                        <img class="avatar-img" src="{{asset('assets/admin/img/160x160/img6.jpg')}}" alt="Image Description">
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-0">Mark Williams</h5>
+                                        <p class="card-text text-body">mark@site.com</p>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="dropdown-divider"></div>
 
+                            <!-- Dropdown -->
+                            <div class="dropdown">
+                                <a class="navbar-dropdown-submenu-item dropdown-item dropdown-toggle" href="javascript:;" id="navSubmenuPagesAccountDropdown1" data-bs-toggle="dropdown" aria-expanded="false">Set status</a>
+
+                                <div class="dropdown-menu dropdown-menu-end navbar-dropdown-menu navbar-dropdown-menu-borderless navbar-dropdown-sub-menu" aria-labelledby="navSubmenuPagesAccountDropdown1">
+                                    <a class="dropdown-item" href="#">
+                                        <span class="legend-indicator bg-success me-1"></span> Available
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <span class="legend-indicator bg-danger me-1"></span> Busy
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <span class="legend-indicator bg-warning me-1"></span> Away
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#"> Reset status
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- End Dropdown -->
+
+                            <a class="dropdown-item" href="#">Profile &amp; account</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a class="dropdown-item" href="#">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="avatar avatar-sm avatar-dark avatar-circle">
+                                            <span class="avatar-initials">HS</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-2">
+                                        <h5 class="mb-0">Htmlstream <span class="badge bg-primary rounded-pill text-uppercase ms-1">PRO</span></h5>
+                                        <span class="card-text">hs.example.com</span>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <!-- Dropdown -->
+                            <div class="dropdown">
+                                <a class="navbar-dropdown-submenu-item dropdown-item dropdown-toggle" href="javascript:;" id="navSubmenuPagesAccountDropdown2" data-bs-toggle="dropdown" aria-expanded="false">Customization</a>
+
+                                <div class="dropdown-menu dropdown-menu-end navbar-dropdown-menu navbar-dropdown-menu-borderless navbar-dropdown-sub-menu" aria-labelledby="navSubmenuPagesAccountDropdown2">
+                                    <a class="dropdown-item" href="#">
+                                        Invite people
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        Analytics
+                                        <i class="bi-box-arrow-in-up-right"></i>
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        Customize Front
+                                        <i class="bi-box-arrow-in-up-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- End Dropdown -->
+
+                            <a class="dropdown-item" href="#">Manage team</a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a class="dropdown-item" href="#">Sign out</a>
+                        </div>
+                    </div>
+                    <!-- End Account -->
                 </li>
             </ul>
             <!-- End Navbar -->
@@ -854,11 +989,11 @@
         <div class="navbar-vertical-footer-offset">
             <!-- Logo -->
 
-            <a class="navbar-brand" href="index.html" aria-label="Front">
-                <img class="navbar-brand-logo" src="{{ asset('assets/admin/svg/logos/logo.svg') }}" alt="Logo" data-hs-theme-appearance="default">
-                <img class="navbar-brand-logo" src="{{ asset('assets/admin/svg/logos-light/logo.svg') }}" alt="Logo" data-hs-theme-appearance="dark">
-                <img class="navbar-brand-logo-mini" src="{{ asset('assets/admin/svg/logos/logo-short.svg') }}" alt="Logo" data-hs-theme-appearance="default">
-                <img class="navbar-brand-logo-mini" src="{{ asset('assets/admin/svg/logos-light/logo-short.svg') }}" alt="Logo" data-hs-theme-appearance="dark">
+            <a class="navbar-brand" href="#" aria-label="Front">
+                <img class="navbar-brand-logo" src="{{asset('assets/admin/svg/logos/logo.svg')}}" alt="Logo" data-hs-theme-appearance="default">
+                <img class="navbar-brand-logo" src="{{asset('assets/admin/svg/logos-light/logo.svg')}}" alt="Logo" data-hs-theme-appearance="dark">
+                <img class="navbar-brand-logo-mini" src="{{asset('assets/admin/svg/logos/logo-short.svg')}}" alt="Logo" data-hs-theme-appearance="default">
+                <img class="navbar-brand-logo-mini" src="{{asset('assets/admin/svg/logos-light/logo-short.svg')}}" alt="Logo" data-hs-theme-appearance="dark">
             </a>
 
             <!-- End Logo -->
@@ -876,61 +1011,186 @@
                 <div id="navbarVerticalMenu" class="nav nav-pills nav-vertical card-navbar-nav">
                     <!-- Collapse -->
                     <div class="nav-item">
-                        <a class="nav-link dropdown-toggle active" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenus" aria-expanded="true" aria-controls="navbarVerticalMenus">
+                        <a class="nav-link dropdown-toggle active" href="#navbarVerticalMenuDashboards" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuDashboards" aria-expanded="true" aria-controls="navbarVerticalMenuDashboards">
                             <i class="bi-house-door nav-icon"></i>
-                            <span class="nav-link-title" >Dashboard</span>
+                            <span class="nav-link-title">Проекты</span>
                         </a>
 
-                        <div id="navbarVerticalMenus" class="nav-collapse collapse show" data-bs-parent="#navbarVerticalMenu">
-                            <a class="nav-link" href="{{('create')}}">Создать вопрос</a>
-                            <a class="nav-link" href="{{('edit')}}">Изменить вопрос</a>
-                            <a class="nav-link" href="{{('statuses')}}">Ответы</a>
-
+                        <div id="navbarVerticalMenuDashboards" class="nav-collapse collapse show" data-bs-parent="#navbarVerticalMenu">
+                            <a class="nav-link active" href="#">Создание теста</a>
+                            <a class="nav-link " href="#">Банк вопросов</a>
+                            <a class="nav-link " href="#">Статусы</a>
+                            <a class="nav-link " href="#">Отзывы</a>
+                            <a class="nav-link " href="#">Категории</a>
+                            <a class="nav-link " href="#">Избранное</a>
                         </div>
                     </div>
                     <!-- End Collapse -->
-
-
-
-
-                    <!-- End Collapse -->
-
-                    <!-- Collapse -->
-
-                    <!-- End Collapse -->
-
-                    <!-- Collapse -->
-                    <!-- End Collapse -->
-
-                    <!-- Collapse -->
-
-
-                    <!-- End Collapse -->
-
-                    <!-- Collapse -->
-
                     <!-- End Content -->
 
                     <!-- Footer -->
+                    <div class="navbar-vertical-footer">
+                        <ul class="navbar-vertical-footer-list">
+                            <li class="navbar-vertical-footer-list-item">
+                                <!-- Style Switcher -->
+                                <div class="dropdown dropup">
+                                    <button type="button" class="btn btn-ghost-secondary btn-icon rounded-circle" id="selectThemeDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-dropdown-animation="">
 
+                                    </button>
+
+                                    <div class="dropdown-menu navbar-dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="selectThemeDropdown">
+                                        <a class="dropdown-item" href="#" data-icon="bi-moon-stars" data-value="auto">
+                                            <i class="bi-moon-stars me-2"></i>
+                                            <span class="text-truncate" title="Auto (system default)">Auto (system default)</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#" data-icon="bi-brightness-high" data-value="default">
+                                            <i class="bi-brightness-high me-2"></i>
+                                            <span class="text-truncate" title="Default (light mode)">Default (light mode)</span>
+                                        </a>
+                                        <a class="dropdown-item active" href="#" data-icon="bi-moon" data-value="dark">
+                                            <i class="bi-moon me-2"></i>
+                                            <span class="text-truncate" title="Dark">Dark</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- End Style Switcher -->
+                            </li>
+
+                            <li class="navbar-vertical-footer-list-item">
+                                <!-- Other Links -->
+                                <div class="dropdown dropup">
+                                    <button type="button" class="btn btn-ghost-secondary btn-icon rounded-circle" id="otherLinksDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-dropdown-animation="">
+                                        <i class="bi-info-circle"></i>
+                                    </button>
+
+                                    <div class="dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="otherLinksDropdown">
+                                        <span class="dropdown-header">Help</span>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bi-journals dropdown-item-icon"></i>
+                                            <span class="text-truncate" title="Resources &amp; tutorials">Resources &amp; tutorials</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bi-command dropdown-item-icon"></i>
+                                            <span class="text-truncate" title="Keyboard shortcuts">Keyboard shortcuts</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bi-alt dropdown-item-icon"></i>
+                                            <span class="text-truncate" title="Connect other apps">Connect other apps</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bi-gift dropdown-item-icon"></i>
+                                            <span class="text-truncate" title="What's new?">What's new?</span>
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <span class="dropdown-header">Contacts</span>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bi-chat-left-dots dropdown-item-icon"></i>
+                                            <span class="text-truncate" title="Contact support">Contact support</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- End Other Links -->
+                            </li>
+
+                            <li class="navbar-vertical-footer-list-item">
+                                <!-- Language -->
+                                <div class="dropdown dropup">
+                                    <button type="button" class="btn btn-ghost-secondary btn-icon rounded-circle" id="selectLanguageDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-dropdown-animation="">
+                                        <img class="avatar avatar-xss avatar-circle" src="{{asset('assets/admin/vendor/flag-icon-css/flags/1x1/us.svg')}}" alt="United States Flag">
+                                    </button>
+
+                                    <div class="dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="selectLanguageDropdown">
+                                        <span class="dropdown-header">Select language</span>
+                                        <a class="dropdown-item" href="#">
+                                            <img class="avatar avatar-xss avatar-circle me-2" src="{{asset('assets/admin/vendor/flag-icon-css/flags/1x1/us.svg')}}" alt="Flag">
+                                            <span class="text-truncate" title="English">English (US)</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <img class="avatar avatar-xss avatar-circle me-2" src="{{asset('assets/admin/vendor/flag-icon-css/flags/1x1/gb.svg')}}" alt="Flag">
+                                            <span class="text-truncate" title="English">English (UK)</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <img class="avatar avatar-xss avatar-circle me-2" src="{{asset('assets/admin/vendor/flag-icon-css/flags/1x1/de.svg')}}" alt="Flag">
+                                            <span class="text-truncate" title="Deutsch">Deutsch</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <img class="avatar avatar-xss avatar-circle me-2" src="{{asset('assets/admin/vendor/flag-icon-css/flags/1x1/dk.svg')}}" alt="Flag">
+                                            <span class="text-truncate" title="Dansk">Dansk</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <img class="avatar avatar-xss avatar-circle me-2" src="{{asset('assets/admin/vendor/flag-icon-css/flags/1x1/it.svg')}}" alt="Flag">
+                                            <span class="text-truncate" title="Italiano">Italiano</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <img class="avatar avatar-xss avatar-circle me-2" src="{{asset('assets/admin/vendor/flag-icon-css/flags/1x1/cn.svg')}}" alt="Flag">
+                                            <span class="text-truncate" title="中文 (繁體)">中文 (繁體)</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- End Language -->
+                            </li>
+                        </ul>
+                    </div>
                     <!-- End Footer -->
                 </div>
             </div>
-        </div>
 </aside>
 
 <!-- End Navbar Vertical -->
 
 <main id="content" role="main" class="main">
     <!-- Content -->
-    @yield('content')
+    <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h1 class="page-header-title">@yield('header')</h1>
+                    @yield('content')
+                </div>
 
-    <!-- End Content -->
+                <!-- End Content -->
 
-    <!-- Footer -->
+                <!-- Footer -->
 
+                <div class="footer">
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col">
+                            <p class="fs-6 mb-0">&copy; Front. <span class="d-none d-sm-inline-block">2022 Htmlstream.</span></p>
+                        </div>
+                        <!-- End Col -->
 
-    <!-- End Footer -->
+                        <div class="col-auto">
+                            <div class="d-flex justify-content-end">
+                                <!-- List Separator -->
+                                <ul class="list-inline list-separator">
+                                    <li class="list-inline-item">
+                                        <a class="list-separator-link" href="#">FAQ</a>
+                                    </li>
+
+                                    <li class="list-inline-item">
+                                        <a class="list-separator-link" href="#">License</a>
+                                    </li>
+
+                                    <li class="list-inline-item">
+                                        <!-- Keyboard Shortcuts Toggle -->
+                                        <button class="btn btn-ghost-secondary btn btn-icon btn-ghost-secondary rounded-circle" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasKeyboardShortcuts" aria-controls="offcanvasKeyboardShortcuts">
+                                            <i class="bi-command"></i>
+                                        </button>
+                                        <!-- End Keyboard Shortcuts Toggle -->
+                                    </li>
+                                </ul>
+                                <!-- End List Separator -->
+                            </div>
+                        </div>
+                        <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                </div>
+
+                <!-- End Footer -->
 </main>
 <!-- ========== END MAIN CONTENT ========== -->
 
@@ -948,7 +1208,7 @@
 
     <div class="offcanvas-body">
         <h4 class="mb-1">Theme Appearance Mode</h4>
-        <p>Check out all <a href="./documentation/layout.html">Layout Options here</a></p>
+        <p>Check out all <a href="#">Layout Options here</a></p>
 
         <div class="row gx-3">
             <!-- Check -->
@@ -1011,7 +1271,7 @@
         <hr>
 
         <h4 class="mb-1">Sidebar Nav</h4>
-        <p>Check out all <a href="./documentation/layout.html">Layout Options here</a></p>
+        <p>Check out all <a href="#">Layout Options here</a></p>
 
         <div class="row gx-3">
             <!-- Check -->
@@ -1020,7 +1280,7 @@
                     <input type="radio" class="form-check-input" name="sidebarNavOptions" id="sidebarNavOptions1" value="pills" checked="">
                     <label class="form-check-label mb-2" for="sidebarNavOptions1">
                         <img class="form-check-img" src="{{asset('assets/admin/svg/layouts-light/demo-layouts-default-classic.svg')}}" alt="Image Description" data-hs-theme-appearance="dark">
-                        <img class="form-check-img" src="{{ asset('assets/admin/svg/layouts/demo-layouts-default-classic.svg') }}" alt="Image Description" data-hs-theme-appearance="default">
+                        <img class="form-check-img" src="{{asset('assets/admin/svg/layouts/demo-layouts-default-classic.svg')}}" alt="Image Description" data-hs-theme-appearance="default">
                     </label>
                     <span class="form-check-text">Pills</span>
                 </div>
@@ -1032,8 +1292,8 @@
                 <div class="form-check form-check-label-highlighter text-center">
                     <input type="radio" class="form-check-input" name="sidebarNavOptions" id="sidebarNavOptions2" value="tabs">
                     <label class="form-check-label mb-2" for="sidebarNavOptions2">
-                        <img class="form-check-img" src="{{ asset('assets/admin/svg/layouts-light/demo-layouts-nav-tabs.svg') }}" alt="Image Description" data-hs-theme-appearance="dark">
-                        <img class="form-check-img" src="{{ asset('assets/admin/svg/layouts/demo-layouts-nav-tabs.svg') }}" alt="Image Description" data-hs-theme-appearance="default">
+                        <img class="form-check-img" src="{{asset('assets/admin/svg/layouts-light/demo-layouts-nav-tabs.svg')}}" alt="Image Description" data-hs-theme-appearance="dark">
+                        <img class="form-check-img" src="{{asset('assets/admin/svg/layouts/demo-layouts-nav-tabs.svg')}}" alt="Image Description" data-hs-theme-appearance="default">
                     </label>
                     <span class="form-check-text">Tabs</span>
                 </div>
@@ -1062,8 +1322,8 @@
                 <div class="form-check form-check-label-highlighter text-center">
                     <input type="radio" class="form-check-input" name="layout" id="headerLayoutOptions1" value="single-header">
                     <label class="form-check-label mb-2" for="headerLayoutOptions1">
-                        <img class="form-check-img" src="{{ asset('assets/admin/svg/layouts/header-default-container.svg') }}" alt="Image Description" data-hs-theme-appearance="default">
-                        <img class="form-check-img" src="{{ asset('assets/admin/svg/layouts-light/header-default-container.svg') }}" alt="Image Description" data-hs-theme-appearance="dark">
+                        <img class="form-check-img" src="{{asset('assets/admin/svg/layouts/header-default-container.svg')}}" alt="Image Description" data-hs-theme-appearance="default">
+                        <img class="form-check-img" src="{{asset('assets/admin/svg/layouts-light/header-default-container.svg')}}" alt="Image Description" data-hs-theme-appearance="dark">
                     </label>
                     <span class="form-check-text">Default</span>
                 </div>
@@ -1075,9 +1335,8 @@
                 <div class="form-check form-check-label-highlighter text-center">
                     <input type="radio" class="form-check-input" name="layout" id="headerLayoutOptions2" value="double-header">
                     <label class="form-check-label mb-2" for="headerLayoutOptions2">
-                        <img class="form-check-img" src="{{ asset('assets/admin/svg/layouts/header-double-line-container.svg') }}" alt="Image Description" data-hs-theme-appearance="default">
-                        <img class="form-check-img" src="{{ asset('assets/admin/svg/layouts-light/header-double-line-container.svg') }}" alt="Image Description" data-hs-theme-appearance="dark">
-
+                        <img class="form-check-img" src="{{asset('assets/admin/svg/layouts/header-double-line-container.svg')}}" alt="Image Description" data-hs-theme-appearance="default">
+                        <img class="form-check-img" src="{{asset('assets/admin/svg/layouts-light/header-double-line-container.svg')}}" alt="Image Description" data-hs-theme-appearance="dark">
                     </label>
                     <span class="form-check-text">Double line</span>
                 </div>
@@ -1131,10 +1390,9 @@
                 <nav class="js-mega-menu navbar-nav-wrap">
                     <!-- Logo -->
 
-                    <a class="navbar-brand" href="index.html" aria-label="Front">
-                        <img class="navbar-brand-logo" src="{{ asset('assets/admin/svg/logos/logo.svg') }}" alt="Logo" data-hs-theme-appearance="default">
-                        <img class="navbar-brand-logo" src="{{ asset('assets/admin/svg/logos-light/logo.svg') }}" alt="Logo" data-hs-theme-appearance="dark">
-
+                    <a class="navbar-brand" href="#" aria-label="Front">
+                        <img class="navbar-brand-logo" src="{{asset('assets/admin/svg/logos/logo.svg')}}" alt="Logo" data-hs-theme-appearance="default">
+                        <img class="navbar-brand-logo" src="{{asset('assets/admin/svg/logos-light/logo.svg')}}" alt="Logo" data-hs-theme-appearance="dark">
                     </a>
 
                     <!-- End Logo -->
@@ -1216,7 +1474,7 @@
                                                                                 <label class="form-check-label" for="notificationCheck1"></label>
                                                                                 <span class="form-check-stretched-bg"></span>
                                                                             </div>
-                                                                            <img class="avatar avatar-sm avatar-circle" src="{{asset('assets/admin/img/160x160/img3.jpg')}}" alt="Image Description">
+                                                                            <img class="avatar avatar-sm avatar-circle" src="assets/admin/img/160x160/img3.jpg" alt="Image Description">
                                                                         </div>
                                                                     </div>
                                                                     <!-- End Col -->
@@ -1571,7 +1829,7 @@
                                                 <a class="dropdown-item" href="#">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img class="avatar avatar-xs avatar-4x3" src="assets/admin/svg/brands/atlassian-icon.svg" alt="Image Description">
+                                                            <img class="avatar avatar-xs avatar-4x3" src="{{asset('assets/admin/svg/brands/atlassian-icon.svg')}}" alt="Image Description">
                                                         </div>
                                                         <div class="flex-grow-1 text-truncate ms-3">
                                                             <h5 class="mb-0">Atlassian</h5>
@@ -1595,7 +1853,7 @@
                                                 <a class="dropdown-item" href="#">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img class="avatar avatar-xs avatar-4x3" src="assets/admin/svg/brands/google-webdev-icon.svg" alt="Image Description">
+                                                            <img class="avatar avatar-xs avatar-4x3" src="{{asset('assets/admin/svg/brands/google-webdev-icon.svg')}}" alt="Image Description">
                                                         </div>
                                                         <div class="flex-grow-1 text-truncate ms-3">
                                                             <h5 class="mb-0">Google webdev</h5>
@@ -1607,7 +1865,7 @@
                                                 <a class="dropdown-item" href="#">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img class="avatar avatar-xs avatar-4x3" src="assets/admin/svg/brands/frontapp-icon.svg" alt="Image Description">
+                                                            <img class="avatar avatar-xs avatar-4x3" src="{{asset('assets/admin/svg/brands/frontapp-icon.svg')}}" alt="Image Description">
                                                         </div>
                                                         <div class="flex-grow-1 text-truncate ms-3">
                                                             <h5 class="mb-0">Frontapp</h5>
@@ -1619,7 +1877,7 @@
                                                 <a class="dropdown-item" href="#">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img class="avatar avatar-xs avatar-4x3" src="assets/admin/svg/illustrations/review-rating-shield.svg" alt="Image Description">
+                                                            <img class="avatar avatar-xs avatar-4x3" src="{{asset('assets/admin/svg/illustrations/review-rating-shield.svg')}}" alt="Image Description">
                                                         </div>
                                                         <div class="flex-grow-1 text-truncate ms-3">
                                                             <h5 class="mb-0">HS Support</h5>
@@ -1694,7 +1952,7 @@
                                 <div class="dropdown">
                                     <a class="navbar-dropdown-account-wrapper" href="javascript:;" id="accountNavbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside" data-bs-dropdown-animation="">
                                         <div class="avatar avatar-sm avatar-circle">
-                                            <img class="avatar-img" src="assets/admin/img/160x160/img6.jpg" alt="Image Description">
+                                            <img class="avatar-img" src="{{asset('assets/admin/img/160x160/img6.jpg')}}" alt="Image Description">
                                             <span class="avatar-status avatar-sm-status avatar-status-success"></span>
                                         </div>
                                     </a>
@@ -1703,7 +1961,7 @@
                                         <div class="dropdown-item-text">
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar avatar-sm avatar-circle">
-                                                    <img class="avatar-img" src="assets/admin/img/160x160/img6.jpg" alt="Image Description">
+                                                    <img class="avatar-img" src="{{asset('assets/admin/img/160x160/img6.jpg')}}" alt="Image Description">
                                                 </div>
                                                 <div class="flex-grow-1 ms-3">
                                                     <h5 class="mb-0">Mark Williams</h5>
@@ -1810,8 +2068,8 @@
 
                                 <!-- Mega Menu -->
                                 <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="dashboardsMegaMenu" style="min-width: 14rem;">
-                                    <a class="dropdown-item active" href="index.html">Default</a>
-                                    <a class="dropdown-item " href="dashboard-alternative.html">Alternative</a>
+                                    <a class="dropdown-item active" href="#">Default</a>
+                                    <a class="dropdown-item " href="#">Alternative</a>
                                 </div>
                                 <!-- End Mega Menu -->
                             </li>
@@ -1828,9 +2086,9 @@
                                         <a id="usersMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Users</a>
 
                                         <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="usersMegaMenu" style="min-width: 14rem;">
-                                            <a class="dropdown-item " href="users.html">Overview</a>
-                                            <a class="dropdown-item " href="users-leaderboard.html">Leaderboard</a>
-                                            <a class="dropdown-item " href="users-add-user.html">Add User <span class="badge bg-info rounded-pill ms-1">Hot</span></a>
+                                            <a class="dropdown-item " href="#">Overview</a>
+                                            <a class="dropdown-item " href="#">Leaderboard</a>
+                                            <a class="dropdown-item " href="#">Add User <span class="badge bg-info rounded-pill ms-1">Hot</span></a>
                                         </div>
                                     </div>
                                     <!-- End Users -->
@@ -1840,11 +2098,11 @@
                                         <a id="userProfileMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">User Profile <span class="badge bg-primary rounded-pill ms-1">5</span></a>
 
                                         <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="userProfileMegaMenu" style="min-width: 14rem;">
-                                            <a class="dropdown-item " href="user-profile.html">Profile</a>
-                                            <a class="dropdown-item " href="user-profile-teams.html">Teams</a>
-                                            <a class="dropdown-item " href="user-profile-projects.html">Projects</a>
-                                            <a class="dropdown-item " href="user-profile-connections.html">Connections</a>
-                                            <a class="dropdown-item " href="user-profile-my-profile.html">My Profile</a>
+                                            <a class="dropdown-item " href="#">Profile</a>
+                                            <a class="dropdown-item " href="#">Teams</a>
+                                            <a class="dropdown-item " href="#">Projects</a>
+                                            <a class="dropdown-item " href="#">Connections</a>
+                                            <a class="dropdown-item " href="#">My Profile</a>
                                         </div>
                                     </div>
                                     <!-- End User Profile -->
@@ -1854,9 +2112,9 @@
                                         <a id="accountMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Account</a>
 
                                         <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="accountMegaMenu" style="min-width: 14rem;">
-                                            <a class="dropdown-item " href="account-settings.html">Settings</a>
-                                            <a class="dropdown-item " href="account-billing.html">Billing</a>
-                                            <a class="dropdown-item " href="account-invoice.html">Invoice</a>
+                                            <a class="dropdown-item " href="#">Settings</a>
+                                            <a class="dropdown-item " href="#">Billing</a>
+                                            <a class="dropdown-item " href="#">Invoice</a>
                                         </div>
                                     </div>
                                     <!-- End Account -->
@@ -1866,16 +2124,16 @@
                                         <a id="ecommerceMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">E-commerce</a>
 
                                         <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="ecommerceMegaMenu" style="min-width: 14rem;">
-                                            <a class="dropdown-item " href="ecommerce.html">Overview</a>
+                                            <a class="dropdown-item " href="#">Overview</a>
 
                                             <!-- Products -->
                                             <div class="hs-has-sub-menu nav-item">
                                                 <a id="productsMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Products</a>
 
                                                 <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="productsMegaMenu" style="min-width: 14rem;">
-                                                    <a class="dropdown-item " href="ecommerce-products.html">Products</a>
-                                                    <a class="dropdown-item " href="ecommerce-product-details.html">Product Details</a>
-                                                    <a class="dropdown-item " href="ecommerce-add-product.html">Add Product</a>
+                                                    <a class="dropdown-item " href="#">Products</a>
+                                                    <a class="dropdown-item " href="#">Product Details</a>
+                                                    <a class="dropdown-item " href="#">Add Product</a>
                                                 </div>
                                             </div>
                                             <!-- End Products -->
@@ -1885,8 +2143,8 @@
                                                 <a id="ordersMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Orders</a>
 
                                                 <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="ordersMegaMenu" style="min-width: 14rem;">
-                                                    <a class="dropdown-item " href="ecommerce-orders.html">Orders</a>
-                                                    <a class="dropdown-item " href="ecommerce-order-details.html">Order Details</a>
+                                                    <a class="dropdown-item " href="#">Orders</a>
+                                                    <a class="dropdown-item " href="#">Order Details</a>
                                                 </div>
                                             </div>
                                             <!-- End Products -->
@@ -1896,16 +2154,16 @@
                                                 <a id="customersMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Customers</a>
 
                                                 <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="customersMegaMenu" style="min-width: 14rem;">
-                                                    <a class="dropdown-item " href="ecommerce-customers.html">Customers</a>
-                                                    <a class="dropdown-item " href="ecommerce-customer-details.html">Customer Details</a>
-                                                    <a class="dropdown-item " href="ecommerce-add-customers.html">Add Customers</a>
+                                                    <a class="dropdown-item " href="#">Customers</a>
+                                                    <a class="dropdown-item " href="#">Customer Details</a>
+                                                    <a class="dropdown-item " href="#">Add Customers</a>
                                                 </div>
                                             </div>
                                             <!-- End Customers -->
 
-                                            <a class="dropdown-item " href="ecommerce-referrals.html">Referrals</a>
-                                            <a class="dropdown-item " href="ecommerce-manage-reviews.html">Manage Reviews</a>
-                                            <a class="dropdown-item " href="ecommerce-checkout.html">Checkout</a>
+                                            <a class="dropdown-item " href="#">Referrals</a>
+                                            <a class="dropdown-item " href="#">Manage Reviews</a>
+                                            <a class="dropdown-item " href="#">Checkout</a>
                                         </div>
                                     </div>
                                     <!-- End E-commerce -->
@@ -1915,8 +2173,8 @@
                                         <a id="projectsMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Projects</a>
 
                                         <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="projectsMegaMenu" style="min-width: 14rem;">
-                                            <a class="dropdown-item " href="projects.html">Overview</a>
-                                            <a class="dropdown-item " href="projects-timeline.html">Timeline</a>
+                                            <a class="dropdown-item " href="#">Overview</a>
+                                            <a class="dropdown-item " href="#">Timeline</a>
                                         </div>
                                     </div>
                                     <!-- End Projects -->
@@ -1926,11 +2184,11 @@
                                         <a id="projectMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Project</a>
 
                                         <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="projectMegaMenu" style="min-width: 14rem;">
-                                            <a class="dropdown-item " href="project.html">Overview</a>
-                                            <a class="dropdown-item " href="project-files.html">Files</a>
-                                            <a class="dropdown-item " href="project-activity.html">Activity</a>
-                                            <a class="dropdown-item " href="project-teams.html">Teams</a>
-                                            <a class="dropdown-item " href="project-settings.html">Settings</a>
+                                            <a class="dropdown-item " href="#">Overview</a>
+                                            <a class="dropdown-item " href="#">Files</a>
+                                            <a class="dropdown-item " href="#">Activity</a>
+                                            <a class="dropdown-item " href="#">Teams</a>
+                                            <a class="dropdown-item " href="#">Settings</a>
                                         </div>
                                     </div>
                                     <!-- End Project -->
@@ -1945,8 +2203,8 @@
                                                 <a id="loginMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Log In</a>
 
                                                 <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="loginMegaMenu" style="min-width: 14rem;">
-                                                    <a class="dropdown-item " href="authentication-login-basic.html">Basic</a>
-                                                    <a class="dropdown-item " href="authentication-login-cover.html">Cover</a>
+                                                    <a class="dropdown-item " href="#">Basic</a>
+                                                    <a class="dropdown-item " href="#">Cover</a>
                                                 </div>
                                             </div>
                                             <!-- End Log In -->
@@ -1956,8 +2214,8 @@
                                                 <a id="signupMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Sign Up</a>
 
                                                 <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="signupMegaMenu" style="min-width: 14rem;">
-                                                    <a class="dropdown-item " href="authentication-signup-basic.html">Basic</a>
-                                                    <a class="dropdown-item " href="authentication-signup-cover.html">Cover</a>
+                                                    <a class="dropdown-item " href="#">Basic</a>
+                                                    <a class="dropdown-item " href="#">Cover</a>
                                                 </div>
                                             </div>
                                             <!-- End Sign Up -->
@@ -1967,8 +2225,8 @@
                                                 <a id="resetPasswordMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Reset Password</a>
 
                                                 <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="resetPasswordMegaMenu" style="min-width: 14rem;">
-                                                    <a class="dropdown-item " href="authentication-reset-password-basic.html">Basic</a>
-                                                    <a class="dropdown-item " href="authentication-reset-password-cover.html">Cover</a>
+                                                    <a class="dropdown-item " href="#">Basic</a>
+                                                    <a class="dropdown-item " href="#">Cover</a>
                                                 </div>
                                             </div>
                                             <!-- End Reset Password -->
@@ -1978,8 +2236,8 @@
                                                 <a id="emailVerificationMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Email Verification</a>
 
                                                 <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="emailVerificationMegaMenu" style="min-width: 14rem;">
-                                                    <a class="dropdown-item " href="authentication-email-verification-basic.html">Basic</a>
-                                                    <a class="dropdown-item " href="authentication-email-verification-cover.html">Cover</a>
+                                                    <a class="dropdown-item " href="#">Basic</a>
+                                                    <a class="dropdown-item " href="#">Cover</a>
                                                 </div>
                                             </div>
                                             <!-- End Email Verification -->
@@ -1989,22 +2247,22 @@
                                                 <a id="2stepVerificationMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">2-step Verification</a>
 
                                                 <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="2stepVerificationMegaMenu" style="min-width: 14rem;">
-                                                    <a class="dropdown-item " href="authentication-2-step-verification-basic.html">Basic</a>
-                                                    <a class="dropdown-item " href="authentication-2-step-verification-cover.html">Cover</a>
+                                                    <a class="dropdown-item " href="#">Basic</a>
+                                                    <a class="dropdown-item " href="#">Cover</a>
                                                 </div>
                                             </div>
                                             <!-- End 2-step Verification -->
 
                                             <a class="dropdown-item" href="javascript:;" data-bs-toggle="modal" data-bs-target="#welcomeMessageModal">Welcome Message</a>
-                                            <a class="dropdown-item " href="error-404.html">Error 404</a>
-                                            <a class="dropdown-item " href="error-500.html">Error 500</a>
+                                            <a class="dropdown-item " href="#">Error 404</a>
+                                            <a class="dropdown-item " href="#">Error 500</a>
                                         </div>
                                     </div>
                                     <!-- End Authentication -->
 
-                                    <a class="dropdown-item " href="api-keys.html" data-placement="left">API Keys</a>
-                                    <a class="dropdown-item " href="welcome-page.html" data-placement="left">Welcome Page</a>
-                                    <a class="dropdown-item " href="landing.html" data-placement="left">Landing Page <span class="badge bg-info rounded-pill ms-1">New</span></a>
+                                    <a class="dropdown-item " href="#" data-placement="left">API Keys</a>
+                                    <a class="dropdown-item " href="#" data-placement="left">Welcome Page</a>
+                                    <a class="dropdown-item " href="#" data-placement="left">Landing Page <span class="badge bg-info rounded-pill ms-1">New</span></a>
                                 </div>
                                 <!-- End Mega Menu -->
                             </li>
@@ -2015,7 +2273,7 @@
                                 <a id="appsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button"><i class="bi-app-indicator dropdown-item-icon"></i> Apps</a>
 
                                 <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="appsMegaMenu" style="min-width: 14rem;">
-                                    <a class="dropdown-item " href="apps-kanban.html">Kanban</a>
+                                    <a class="dropdown-item " href="#">Kanban</a>
                                     <a class="dropdown-item " href="apps-calendar.html">Calendar</a>
                                     <a class="dropdown-item " href="apps-invoice-generator.html">Invoice Generator</a>
                                     <a class="dropdown-item " href="apps-file-manager.html">File Manager</a>
@@ -2160,7 +2418,7 @@
                                                 <a class="dropdown-item" href="index.html">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img class="avatar avatar-xs avatar-circle" src="{{asset('assets/admin/img/160x160/img10.jpg')}}" alt="Image Description">
+                                                            <img class="avatar avatar-xs avatar-circle" src="assets/admin/img/160x160/img10.jpg" alt="Image Description">
                                                         </div>
                                                         <div class="flex-grow-1 text-truncate ms-2">
                                                             <span>Amanda Harvey <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>
@@ -2171,7 +2429,7 @@
                                                 <a class="dropdown-item" href="index.html">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img class="avatar avatar-xs avatar-circle" src="{{asset('assets/admin/img/160x160/img3.jpg')}}" alt="Image Description">
+                                                            <img class="avatar avatar-xs avatar-circle" src="assets/admin/img/160x160/img3.jpg" alt="Image Description">
                                                         </div>
                                                         <div class="flex-grow-1 text-truncate ms-2">
                                                             <span>David Harrison</span>
@@ -2287,7 +2545,7 @@
                                                                                     <label class="form-check-label" for="notificationCheck1"></label>
                                                                                     <span class="form-check-stretched-bg"></span>
                                                                                 </div>
-                                                                                <img class="avatar avatar-sm avatar-circle" src="{{asset('assets/admin/img/160x160/img3.jpg')}}" alt="Image Description">
+                                                                                <img class="avatar avatar-sm avatar-circle" src="assets/admin/img/160x160/img3.jpg" alt="Image Description">
                                                                             </div>
                                                                         </div>
                                                                         <!-- End Col -->
@@ -2353,7 +2611,7 @@
                                                                                     <span class="form-check-stretched-bg"></span>
                                                                                 </div>
                                                                                 <div class="avatar avatar-sm avatar-circle">
-                                                                                    <img class="avatar-img" src="{{asset('assets/admin/img/160x160/img10.jpg')}}" alt="Image Description">
+                                                                                    <img class="avatar-img" src="assets/admin/img/160x160/img10.jpg" alt="Image Description">
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -2417,7 +2675,7 @@
                                                                                     <span class="form-check-stretched-bg"></span>
                                                                                 </div>
                                                                                 <div class="avatar avatar-sm avatar-circle">
-                                                                                    <img class="avatar-img" src="{{asset('assets/admin/img/160x160/img7.jpg')}}" alt="Image Description">
+                                                                                    <img class="avatar-img" src="assets/admin/img/160x160/img7.jpg" alt="Image Description">
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -2487,7 +2745,7 @@
                                                                                     <span class="form-check-stretched-bg"></span>
                                                                                 </div>
                                                                                 <div class="avatar avatar-sm avatar-circle">
-                                                                                    <img class="avatar-img" src="{{asset('assets/admin/img/160x160/img5.jpg')}}" alt="Image Description">
+                                                                                    <img class="avatar-img" src="assets/admin/img/160x160/img5.jpg" alt="Image Description">
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -2551,7 +2809,7 @@
                                                                                     <span class="form-check-stretched-bg"></span>
                                                                                 </div>
                                                                                 <div class="avatar avatar-sm avatar-circle">
-                                                                                    <img class="avatar-img" src="{{asset('assets/admin/img/160x160/img8.jpg')}}" alt="Image Description">
+                                                                                    <img class="avatar-img" src="assets/admin/img/160x160/img8.jpg" alt="Image Description">
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -2642,7 +2900,7 @@
                                                     <a class="dropdown-item" href="#">
                                                         <div class="d-flex align-items-center">
                                                             <div class="flex-shrink-0">
-                                                                <img class="avatar avatar-xs avatar-4x3" src="{{asset('assets/admin/svg/brands/atlassian-icon.svg')}}" alt="Image Description">
+                                                                <img class="avatar avatar-xs avatar-4x3" src="assets/admin/svg/brands/atlassian-icon.svg" alt="Image Description">
                                                             </div>
                                                             <div class="flex-grow-1 text-truncate ms-3">
                                                                 <h5 class="mb-0">Atlassian</h5>
@@ -2654,7 +2912,7 @@
                                                     <a class="dropdown-item" href="#">
                                                         <div class="d-flex align-items-center">
                                                             <div class="flex-shrink-0">
-                                                                <img class="avatar avatar-xs avatar-4x3" src="{{asset('assets/admin/brands/slack-icon.svg')}}" alt="Image Description">
+                                                                <img class="avatar avatar-xs avatar-4x3" src="assets/admin/svg/brands/slack-icon.svg" alt="Image Description">
                                                             </div>
                                                             <div class="flex-grow-1 text-truncate ms-3">
                                                                 <h5 class="mb-0">Slack <span class="badge bg-primary rounded-pill text-uppercase ms-1">Try</span></h5>
@@ -2678,7 +2936,7 @@
                                                     <a class="dropdown-item" href="#">
                                                         <div class="d-flex align-items-center">
                                                             <div class="flex-shrink-0">
-                                                                <img class="avatar avatar-xs avatar-4x3" src="{{asset('assets/admin/svg/brands/frontapp-icon.svg')}}" alt="Image Description">
+                                                                <img class="avatar avatar-xs avatar-4x3" src="assets/admin/svg/brands/frontapp-icon.svg" alt="Image Description">
                                                             </div>
                                                             <div class="flex-grow-1 text-truncate ms-3">
                                                                 <h5 class="mb-0">Frontapp</h5>
@@ -2690,7 +2948,7 @@
                                                     <a class="dropdown-item" href="#">
                                                         <div class="d-flex align-items-center">
                                                             <div class="flex-shrink-0">
-                                                                <img class="avatar avatar-xs avatar-4x3" src="{{asset('assets/admin/svg/illustrations/review-rating-shield.svg')}}" alt="Image Description">
+                                                                <img class="avatar avatar-xs avatar-4x3" src="assets/admin/svg/illustrations/review-rating-shield.svg" alt="Image Description">
                                                             </div>
                                                             <div class="flex-grow-1 text-truncate ms-3">
                                                                 <h5 class="mb-0">HS Support</h5>
@@ -2774,7 +3032,7 @@
                                             <div class="dropdown-item-text">
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar avatar-sm avatar-circle">
-                                                        <img class="avatar-img" src="{{asset('assets/admin/img/160x160/img6.jpg')}}" alt="Image Description">
+                                                        <img class="avatar-img" src="assets/admin/img/160x160/img6.jpg" alt="Image Description">
                                                     </div>
                                                     <div class="flex-grow-1 ms-3">
                                                         <h5 class="mb-0">Mark Williams</h5>
@@ -3006,9 +3264,9 @@
                                         <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="projectMegaMenu" style="min-width: 14rem;">
                                             <a class="dropdown-item " href="project.html">Overview</a>
                                             <a class="dropdown-item " href="project-files.html">Files</a>
-                                            <a class="dropdown-item " href="project-activity.html">Activity</a>
-                                            <a class="dropdown-item " href="project-teams.html">Teams</a>
-                                            <a class="dropdown-item " href="project-settings.html">Settings</a>
+                                            <a class="dropdown-item " href="#">Activity</a>
+                                            <a class="dropdown-item " href="#">Teams</a>
+                                            <a class="dropdown-item " href="#">Settings</a>
                                         </div>
                                     </div>
                                     <!-- End Project -->
@@ -3068,21 +3326,21 @@
 
                                                 <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="2stepVerificationMegaMenu" style="min-width: 14rem;">
                                                     <a class="dropdown-item " href="authentication-2-step-verification-basic.html">Basic</a>
-                                                    <a class="dropdown-item " href="authentication-2-step-verification-cover.html">Cover</a>
+                                                    <a class="dropdown-item " href="#">Cover</a>
                                                 </div>
                                             </div>
                                             <!-- End 2-step Verification -->
 
                                             <a class="dropdown-item" href="javascript:;" data-bs-toggle="modal" data-bs-target="#welcomeMessageModal">Welcome Message</a>
-                                            <a class="dropdown-item " href="error-404.html">Error 404</a>
-                                            <a class="dropdown-item " href="error-500.html">Error 500</a>
+                                            <a class="dropdown-item " href="#">Error 404</a>
+                                            <a class="dropdown-item " href="#">Error 500</a>
                                         </div>
                                     </div>
                                     <!-- End Authentication -->
 
-                                    <a class="dropdown-item " href="api-keys.html" data-placement="left">API Keys</a>
-                                    <a class="dropdown-item " href="welcome-page.html" data-placement="left">Welcome Page</a>
-                                    <a class="dropdown-item " href="landing.html" data-placement="left">Landing Page <span class="badge bg-info rounded-pill ms-1">New</span></a>
+                                    <a class="dropdown-item " href="#" data-placement="left">API Keys</a>
+                                    <a class="dropdown-item " href="#" data-placement="left">Welcome Page</a>
+                                    <a class="dropdown-item " href="#" data-placement="left">Landing Page <span class="badge bg-info rounded-pill ms-1">New</span></a>
                                 </div>
                                 <!-- End Mega Menu -->
                             </li>
@@ -3093,22 +3351,22 @@
                                 <a id="appsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button"><i class="bi-app-indicator dropdown-item-icon"></i> Apps</a>
 
                                 <div class="hs-sub-menu dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="appsMegaMenu" style="min-width: 14rem;">
-                                    <a class="dropdown-item " href="apps-kanban.html">Kanban</a>
-                                    <a class="dropdown-item " href="apps-calendar.html">Calendar</a>
-                                    <a class="dropdown-item " href="apps-invoice-generator.html">Invoice Generator</a>
-                                    <a class="dropdown-item " href="apps-file-manager.html">File Manager</a>
+                                    <a class="dropdown-item " href="#">Kanban</a>
+                                    <a class="dropdown-item " href="#">Calendar</a>
+                                    <a class="dropdown-item " href="#">Invoice Generator</a>
+                                    <a class="dropdown-item " href="#">File Manager</a>
                                 </div>
                             </li>
                             <!-- End Apps -->
 
                             <li class="nav-item">
-                                <a class="nav-link " href="layouts/index.html">
+                                <a class="nav-link " href="#">
                                     <i class="bi-grid-1x2 dropdown-item-icon"></i> Layouts
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link " href="documentation/index.html" data-placement="left">
+                                <a class="nav-link " href="#" data-placement="left">
                                     <i class="bi-book dropdown-item-icon"></i> Docs
                                 </a>
                             </li>
@@ -3605,7 +3863,7 @@
                                         <!-- Media -->
                                         <div class="d-flex">
                                             <div class="flex-shrink-0">
-                                                <img class="avatar avatar-xs" src="{{ asset('assets/admin/svg/brands/excel-icon.svg') }}" alt="Image Description">
+                                                <img class="avatar avatar-xs" src="{{asset('assets/admin/svg/brands/excel-icon.svg')}}" alt="Image Description">
                                             </div>
                                             <div class="flex-grow-1 text-truncate ms-2">
                                                 <span class="d-block fs-6 text-dark text-truncate" title="weekly-reports.xls">weekly-reports.xls</span>
@@ -3810,16 +4068,16 @@
                 <div class="w-85 mx-auto">
                     <div class="row justify-content-between">
                         <div class="col">
-                            <img class="img-fluid" src="{{ asset('assets/admin/svg/brands/gitlab-gray.svg') }}" alt="Image Description">
+                            <img class="img-fluid" src="{{asset('assets/admin/svg/brands/gitlab-gray.svg')}}" alt="Image Description">
                         </div>
                         <div class="col">
-                            <img class="img-fluid" src="{{ asset('assets/admin/svg/brands/fitbit-gray.svg') }}" alt="Image Description">
+                            <img class="img-fluid" src="{{asset('assets/admin/svg/brands/fitbit-gray.svg')}}" alt="Image Description">
                         </div>
                         <div class="col">
-                            <img class="img-fluid" src="{{ asset('assets/admin/svg/brands/flow-xo-gray.svg') }}" alt="Image Description">
+                            <img class="img-fluid" src="{{asset('assets/admin/svg/brands/flow-xo-gray.svg')}}" alt="Image Description">
                         </div>
                         <div class="col">
-                            <img class="img-fluid" src="{{ asset('assets/admin/svg/brands/layar-gray.svg') }}" alt="Image Description">
+                            <img class="img-fluid" src="{{asset('assets/admin/svg/brands/layar-gray.svg')}}" alt="Image Description">
                         </div>
                     </div>
                 </div>
@@ -4078,19 +4336,15 @@
 <!-- ========== END SECONDARY CONTENTS ========== -->
 
 <!-- JS Implementing Plugins -->
-<script src="{{ asset('assets/admin/js/vendor.min.js') }}"></script>
+<script src="{{asset('assets/admin/js/vendor.min.js')}}"></script>
 
-<script src="{{ asset('assets/admin/vendor/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js') }}"></script>
+<script src="{{asset('assets/admin/vendor/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js')}}"></script>
 
 <!-- JS Front -->
-<script src="{{ asset('assets/admin/js/theme.min.js') }}"></script>
-<script src="{{ asset('assets/admin/js/hs.theme-appearance-charts.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{asset('assets/admin/js/theme.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/hs.theme-appearance-charts.js')}}"></script>
+
 <!-- JS Plugins Init. -->
-<script>$(document).ready(function() {
-        $('.js-example-basic-multiple').select2();
-    });</script>
 <script>
     $(document).on('ready', function () {
         // INITIALIZATION OF DATERANGEPICKER
@@ -4144,8 +4398,8 @@
         },
         language: {
             zeroRecords: `<div class="text-center p-4">
-              <img class="mb-3" src="{{asset('assets/admin/svg/illustrations/oc-error.svg')}}" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="default">
-              <img class="mb-3" src="{{asset('assets/admin/svg/illustrations-light/oc-error.svg')}}" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="dark">
+              <img class="mb-3" src="{{asset('./assets/admin/svg/illustrations/oc-error.svg')}}" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="default">
+              <img class="mb-3" src="{{asset('./assets/admin/svg/illustrations-light/oc-error.svg')}}" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="dark">
             <p class="mb-0">No data to show</p>
             </div>`
         }
@@ -4354,6 +4608,158 @@
         })
     })()
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.js-quill').forEach(function (el) {
+
+            const options = el.dataset.hsQuillOptions
+                ? JSON.parse(el.dataset.hsQuillOptions)
+                : {};
+
+            const quill = new Quill(el, {
+                theme: 'snow',
+                ...options
+            });
+
+            // Сохраняем HTML в hidden input
+            quill.on('text-change', function () {
+                document.getElementById('description').value = el.querySelector('.ql-editor').innerHTML;
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2({
+            width: '100%',
+            placeholder: "Выберите..."
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var input = document.querySelector('input[name=basic]');
+        new Tagify(input);
+    });
+</script>
+<script src="https://unpkg.com/@yaireo/tagify"></script>
+
+<script>
+    function toggleSection(el) {
+        const body = el.nextElementSibling;
+        const arrow = el.querySelector('.arrow');
+
+        body.classList.toggle('open');
+        arrow.classList.toggle('rotate');
+    }
+
+    // Tagify
+    const input = document.querySelector('#tags');
+
+    const tagify = new Tagify(input, {
+        delimiters: ",",
+        maxTags: 10,
+        dropdown: {
+            enabled: 0
+        },
+        whitelist: [
+            "php",
+            "laravel",
+            "javascript",
+            "c++",
+            "html",
+            "css",
+            "backend",
+            "frontend"
+        ]
+    });
+</script>
+<script>
+    function toggleSection(el) {
+        const body = el.nextElementSibling;
+        const arrow = el.querySelector('.arrow');
+
+        body.classList.toggle('open');
+        arrow.classList.toggle('rotate');
+    }
+
+    // Теги
+    function addTag(e) {
+        if (e.key !== 'Enter') return;
+
+        e.preventDefault();
+        const value = e.target.value.trim();
+        if (!value) return;
+
+        const container = document.getElementById('tagsContainer');
+
+        const tag = document.createElement('span');
+        tag.className = 'tag';
+        tag.innerHTML = value + ' <span onclick="removeTag(this)">×</span>';
+
+        container.appendChild(tag);
+        e.target.value = '';
+
+        syncTags();
+    }
+
+    function removeTag(el) {
+        el.parentElement.remove();
+        syncTags();
+    }
+
+    function syncTags() {
+        const tags = [];
+        document.querySelectorAll('.tag').forEach(t => {
+            tags.push(t.childNodes[0].textContent.trim());
+        });
+        document.getElementById('tagsInput').value = tags.join(',');
+    }
+</script>
+@push('scripts')
+    <script>
+        let answerIndex = 1;
+
+        document.getElementById('add-answer').addEventListener('click', function () {
+
+            for (let i = 0; i < 3; i++) {
+                const wrapper = document.getElementById('answers-wrapper');
+
+                const block = document.createElement('div');
+                block.classList.add('answer-item', 'mb-4');
+
+                block.innerHTML = `
+            <div class="row mb-2">
+                <div class="col-md-8">
+                    <label class="form-label">Вариант ответа ${answerIndex + 1}</label>
+                    <input type="text" name="answers[${answerIndex}][text]" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Оценка</label>
+                    <select name="answers[${answerIndex}][score]" class="form-select">
+                        <option value="">Пусто</option>
+                        <option value="1">Правильный</option>
+                        <option value="0">Неправильный</option>
+                    </select>
+                </div>
+            </div>
+
+            <label class="form-label">Отзыв</label>
+            <textarea name="answers[${answerIndex}][feedback]" class="form-control feedback-editor" rows="4"></textarea>
+        `;
+
+                wrapper.appendChild(block);
+                answerIndex++;
+            }
+        });
+    </script>
+@endpush
 
 
 <!-- End Style Switcher JS -->
