@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('multiple_choice_answers', function (Blueprint $table) {
             $table->id();
-            $table->foreingId('question_id')->constrained('questions');
+            $table->foreignId('question_id')->constrained('questions');
             $table->string('answer');
             $table->string('is_correct');
             $table->timestamps();

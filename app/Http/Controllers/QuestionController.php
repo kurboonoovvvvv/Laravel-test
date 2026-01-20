@@ -2,82 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Question, Single_choice_answer, Multiple_choice_answer, Boolean_answer, Short_answer, Test};
 use Illuminate\Http\Request;
+use App\Models\Question;
 
 class QuestionController extends Controller
 {
-    public function create()
+    // Страница с модальным окном и списком вопросов
+    public function index()
     {
-        return view('admin.answers.create', [
-            'tests' => Test::all()
-        ]);
+        $questions = Question::all(); // получаем все вопросы
+        return view('questions.index', compact('questions')); // передаём в Blade
     }
 
+    // Сохранение нового вопроса
     public function store(Request $request)
     {
-        $question = Question::create(
-            $request->only('test_id', 'question', 'type')
-        );
-
-        switch ($question->type) {
-            case 'single':
-                foreach ($request->answers as $a) {
-                    Single_choice_answer::create($a + ['question_id' => $question->id]);
-                }
-                break;
-
-            case 'multiple':
-                foreach ($request->answers as $a) {
-                    Multiple_choice_answer::create($a + ['question_id' => $question->id]);
-                }
-                break;
-
-            case 'boolean':
-                Boolean_answer::create([
-                    'question_id' => $question->id,
-                    'correct' => $request->correct
-                ]);
-                break;
-
-            case 'short':
-                Short_answer::create([
-                    'question_id' => $question->id,
-                    'correct_answer' => $request->correct_answer
-                ]);
-                break;
-        }
-
-        return $question;
-    }
-
-    public function show(Question $question)
-    {
-        return $question->load([
-            'singleAnswers',
-            'multipleAnswers',
-            'booleanAnswer',
-            'shortAnswer'
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'score' => 'required|numeric|min:0',
         ]);
-    }
-    public function edit($id)
-    {
-        $question = Question::with('answers')->findOrFail($id); // подгружаем вопрос с ответами
-        $tests = Test::all(); // список тестов для select
 
-        return view('admin.answers.edit', compact('question', 'tests'));
-    }
+        Question::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'score' => $request->score,
+        ]);
 
-
-    public function update(Request $request, Question $question)
-    {
-        $question->update($request->only('question'));
-        return $question;
+        return redirect()->route('questions.index')->with('success', 'Вопрос успешно добавлен!');
     }
 
-    public function destroy(Question $question)
-    {
-        $question->delete();
-        return response()->json(['message' => 'Deleted']);
-    }
+
 }

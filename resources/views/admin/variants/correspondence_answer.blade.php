@@ -15,10 +15,22 @@
             </div>
             <div class="acc-body">
                 <label>Название вопроса</label>
-                <input type="text" name="title">
+                <input type="text" name="title" class="form-control">
 
                 <label>Текст вопроса</label>
-                <textarea name="text"></textarea>
+                <div class="quill-custom">
+                    <div class="js-quill"
+                         style="height: 8rem;"
+                         data-hs-quill-options='{
+           "placeholder": "Type your description...",
+           "modules": {
+             "toolbar": [
+               ["bold", "italic", "underline", "strike", "link", "image", "blockquote", "code", {"list": "bullet"}]
+             ]
+           }
+         }'>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -30,8 +42,8 @@
             <div class="acc-body">
                 @for($i=1;$i<=3;$i++)
                     <div class="answer-row">
-                        <input type="text" placeholder="Вариант ответа {{ $i }}">
-                        <select>
+                        <input type="text" class="form-control" placeholder="Вариант ответа {{ $i }}">
+                        <select class="form-control">
                             <option>Пусто</option>
                             <option>Верно</option>
                             <option>Неверно</option>

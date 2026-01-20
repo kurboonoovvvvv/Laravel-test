@@ -904,7 +904,7 @@
 
                             <!-- Dropdown -->
                             <div class="dropdown">
-                                <a class="navbar-dropdown-submenu-item dropdown-item dropdown-toggle" href="javascript:;" id="navSubmenuPagesAccountDropdown1" data-bs-toggle="dropdown" aria-expanded="false">Set status</a>
+                                <a class="navbar-dropdown-submenu-item dropdown-item dropdown-toggle" href="javascript:" id="navSubmenuPagesAccountDropdown1" data-bs-toggle="dropdown" aria-expanded="false">Set status</a>
 
                                 <div class="dropdown-menu dropdown-menu-end navbar-dropdown-menu navbar-dropdown-menu-borderless navbar-dropdown-sub-menu" aria-labelledby="navSubmenuPagesAccountDropdown1">
                                     <a class="dropdown-item" href="#">
@@ -1013,16 +1013,12 @@
                     <div class="nav-item">
                         <a class="nav-link dropdown-toggle active" href="#navbarVerticalMenuDashboards" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuDashboards" aria-expanded="true" aria-controls="navbarVerticalMenuDashboards">
                             <i class="bi-house-door nav-icon"></i>
-                            <span class="nav-link-title">Проекты</span>
+                            <span class="nav-link-title">Тесты</span>
                         </a>
 
                         <div id="navbarVerticalMenuDashboards" class="nav-collapse collapse show" data-bs-parent="#navbarVerticalMenu">
-                            <a class="nav-link active" href="#">Создание теста</a>
-                            <a class="nav-link " href="#">Банк вопросов</a>
-                            <a class="nav-link " href="#">Статусы</a>
-                            <a class="nav-link " href="#">Отзывы</a>
-                            <a class="nav-link " href="#">Категории</a>
-                            <a class="nav-link " href="#">Избранное</a>
+                            <a class="nav-link active" href="{{route('page')}}">Создание вопроса</a>
+
                         </div>
                     </div>
                     <!-- End Collapse -->
@@ -1136,6 +1132,8 @@
                     <!-- End Footer -->
                 </div>
             </div>
+        </div>
+    </div>
 </aside>
 
 <!-- End Navbar Vertical -->
@@ -1191,6 +1189,9 @@
                 </div>
 
                 <!-- End Footer -->
+            </div>
+        </div>
+    </div>
 </main>
 <!-- ========== END MAIN CONTENT ========== -->
 
